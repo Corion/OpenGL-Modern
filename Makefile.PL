@@ -10,10 +10,14 @@ my $define;
 
 if( os_is('MSWin32')) {
     @libs = '-lopengl32 -lgdi32 -lmsimg32';
-    $define = "-D_WIN32", # XXX Platform specific
+    $define = "-D_WIN32",
 
 } elsif( os_is('Cygwin')) {
     @libs = '-lGL -lX11';
+
+} elsif( os_is('MacOSX')) {
+    @libs = '-framework OpenGL';
+
 } else {
     # This might not work on MacOS / OSX, but until I get other reports...
     @libs = '-lGL -lX11';
