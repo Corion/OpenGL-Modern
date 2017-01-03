@@ -16,7 +16,7 @@ matrix:
 os:
   - linux
   - osx
-sudo: false
+sudo: required
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update && sudo apt-get install -y freeglut ; fi
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
