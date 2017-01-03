@@ -16,7 +16,6 @@ matrix:
 os:
   - linux
   - osx
-  # - windows
 sudo: false
 before_install:
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
