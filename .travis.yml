@@ -50,6 +50,6 @@ before_script:
   - coverage-setup
 script:
   - make
-  - prove -bv -j$(test-jobs) $(test-files)   # parallel testing
+  - prove -bv $(test-files)
 after_success:
   - coverage-report
