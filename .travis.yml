@@ -35,22 +35,17 @@ before_install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then export TRAVIS_PERL_DEBUG=1; fi
   - export TRAVIS_PERL_DEBUG=1;
-  #- git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-  - eval $(curl https://travis-perl.github.io/init) --auto
-  - build-perl
   - perl -V
   - mkdir ~/lib
-  - mkdir ~/lib
+  - mkdir ~/bin
   - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && INSTALLBIN=~/bin make install
-  - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && ~/bin/cpanm -l ~/lib --notest --installdeps . && make
-  - cd $BUILD_DIR             # $BUILD_DIR is set by the build-dist command
 install:
-  - cpan-install --deps       # installs prereqs, including recommends
-  - cpan-install --coverage   # installs converage prereqs, if enabled
+  - cd ~/opengl-modern
+  - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && ~/bin/cpanm -l ~/lib --notest --installdeps . && make
 before_script:
-  - coverage-setup
+  #- coverage-setup
 script:
   - make
   - prove -bv $(test-files)
 after_success:
-  - coverage-report
+  #
