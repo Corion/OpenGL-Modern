@@ -1,12 +1,12 @@
 language: perl
-perl:
-  - "5.8"
-  - "5.12"
-  - "5.18"
-  - "5.20"
-  - "5.22"
-  - "dev"
-  - "blead"
+#perl:
+#  - "5.8"
+#  - "5.12"
+#  - "5.18"
+#  - "5.20"
+#  - "5.22"
+#  - "dev"
+#  - "blead"
 matrix:
   include:
     - perl: 5.18
@@ -16,9 +16,6 @@ matrix:
 os:
   #- linux
   - osx
-compiler:
-  - gcc
-  - clang
 sudo: required
 # Actually this is only needed for Linux, I guess
 addons:
@@ -36,13 +33,16 @@ addons:
           - libosmesa6
 before_install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
-  #- if [ "${TRAVIS_OS_NAME}" = "osx" ]; then export TRAVIS_PERL_DEBUG=1; fi
-  #- export TRAVIS_PERL_DEBUG=1;
-  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-  - source ~/travis-perl-helpers/init
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then export TRAVIS_PERL_DEBUG=1; fi
+  - export TRAVIS_PERL_DEBUG=1;
+  #- git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
+  - eval $(curl https://travis-perl.github.io/init) --auto
   - build-perl
   - perl -V
-  - build-dist
+  - mkdir ~/lib
+  - mkdir ~/lib
+  - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && INSTALLBIN=~/bin make install
+  - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && ~/bin/cpanm -l ~/lib --notest --installdeps . && make
   - cd $BUILD_DIR             # $BUILD_DIR is set by the build-dist command
 install:
   - cpan-install --deps       # installs prereqs, including recommends
