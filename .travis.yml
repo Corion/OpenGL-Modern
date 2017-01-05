@@ -36,12 +36,11 @@ before_install:
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then export TRAVIS_PERL_DEBUG=1; fi
   - export TRAVIS_PERL_DEBUG=1;
   - perl -V
-  - mkdir ~/lib
-  - mkdir ~/bin
-  - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && INSTALLBIN=~/bin make install
 install:
+  - mkdir ~/perl5
+  - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && INSTALLBASE=~/perl5 make install
   - cd ~/opengl-modern
-  - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && ~/bin/cpanm -l ~/lib --notest --installdeps . && make
+  - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && ~/perl5/bin/cpanm -l ~/lib --notest --installdeps . && make
 before_script:
   #- coverage-setup
 script:
