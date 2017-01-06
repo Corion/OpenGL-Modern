@@ -7,6 +7,7 @@ use Devel::CheckOS 'os_is';
 my $include = "-I. -Iinclude -Isrc";
 my @libs;
 my $define;
+my $dynamic_lib = {};
 
 if( os_is('MSWin32')) {
     @libs = '-lopengl32 -lgdi32 -lmsimg32';
@@ -16,7 +17,8 @@ if( os_is('MSWin32')) {
     @libs = '-lGL -lX11';
 
 } elsif( os_is('MacOSX')) {
-    @libs = '-framework OpenGL';
+    @libs = ();
+    $dynamic_lib = { OTHERLDFLAGS => "-framework OpenGL" };
 
 } else {
     # This might not work on MacOS / OSX, but until I get other reports...
@@ -52,6 +54,7 @@ WriteMakefile1(
     LIBS              => "@libs", # e.g., '-lm'
     DEFINE            => $define,
     INC               => $include,
+    dynamic_lib       => $dynamic_lib,
     CONFIGURE_REQUIRES    => {
         'Devel::CheckOS' => 0,
         'ExtUtils::MakeMaker' => 0,
