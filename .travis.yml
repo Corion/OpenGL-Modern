@@ -37,6 +37,7 @@ before_install:
   - export TRAVIS_PERL_DEBUG=1;
   - perl -V
 install:
+  # kick off the build a second time
   - mkdir ~/perl5
   - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && INSTALLBASE=~/perl5 make install
   - cd ~/opengl-modern
