@@ -34,6 +34,7 @@ addons:
 before_install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then export TRAVIS_PERL_DEBUG=1; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
   - export TRAVIS_PERL_DEBUG=1;
   - perl -V
   # kick off the build a second time
@@ -46,6 +47,7 @@ install:
   - eval "$(perl -I$MYLIB/lib/perl5/ -Mlocal::lib=$MYLIB)"
   - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && make install
   - $MYLIB/bin/cpanm Devel::CheckOS
+  - $MYLIB/bin/cpanm --notest OpenGL
   - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && $MYLIB/bin/cpanm --verbose --installdeps . && perl Makefile.PL && make
 before_script:
   #- coverage-setup
