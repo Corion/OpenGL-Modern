@@ -39,7 +39,7 @@ before_install:
 install:
   # kick off the build a second time
   - if [ ! -d ~/perl5 ]; then mkdir ~/perl5; fi
-  - git clone git://github.com/Perl-Toolchain-Gang/local-lib ~/local-lib && cd ~/cpanminus && perl Makefile.PL --bootstrap --no-manpages && make install
+  - git clone git://github.com/Perl-Toolchain-Gang/local-lib ~/local-lib && cd ~/local-lib && perl Makefile.PL --bootstrap --no-manpages && make install
   - eval "$(perl -I~/perl5/lib/perl5 -Mlocal::lib)"
   - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && make install
   - cd ~/opengl-modern
