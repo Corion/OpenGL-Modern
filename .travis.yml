@@ -36,17 +36,18 @@ before_install:
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then export TRAVIS_PERL_DEBUG=1; fi
   - export TRAVIS_PERL_DEBUG=1;
   - perl -V
-install:
   # kick off the build a second time
   # ~/perl5 belongs to travis itself or the wonky perlbrew thing it tries
   # and fails for OSX
   - export MYLIB=$HOME/perl5-mylib
+install:
   - git clone git://github.com/Perl-Toolchain-Gang/local-lib ~/local-lib && cd ~/local-lib && perl Makefile.PL --bootstrap=$MYLIB --no-manpages && make install
-  - if [ "${TRAVIS_PERL_DEBUG}" = "1" ]; then perl -I$MYLIB -Mlocal::lib=$MYLIB; fi
+  - if [ "${TRAVIS_PERL_DEBUG}" ]; then perl -I$MYLIB -Mlocal::lib=$MYLIB; fi
   - eval "$(perl -I$MYLIB -Mlocal::lib=$MYLIB)"
   - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && make install
-  - cd ~/opengl-modern
-  - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && $MYLIB/site/bin/cpanm --installdeps . && make
+  #- cd ~/opengl-modern
+  #- git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && $MYLIB/site/bin/cpanm --installdeps . && make
+  - cd ~/Corion/OpenGL-Modern && perl Makefile.PL && $MYLIB/site/bin/cpanm --installdeps . && make
 before_script:
   #- coverage-setup
 script:
