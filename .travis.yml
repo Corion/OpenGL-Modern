@@ -38,7 +38,7 @@ before_install:
   - perl -V
 install:
   # kick off the build a second time
-  - mkdir ~/perl5
+  - if [ ! -d ~/perl5 ]; then mkdir ~/perl5; fi
   - git clone git://github.com/miyagawa/cpanminus ~/cpanminus && cd ~/cpanminus && perl Makefile.PL && INSTALLBASE=~/perl5 make install
   - cd ~/opengl-modern
   - git clone git://github.com/Corion/opengl-modern ~/opengl-modern && cd ~/opengl-modern && perl Makefile.PL && ~/perl5/bin/cpanm -l ~/lib --notest --installdeps . && make
