@@ -6,8 +6,19 @@ use OpenGL::Modern ':all';
 glewCreateContext();
 glewInit();
 
-# Set up a windowless OpenGL context?!
-my $id = glCreateShader(GL_VERTEX_SHADER);
+# Set up a windowless OpenGL context for headless testing
+
+my $id;
+if( ! eval {
+    $id = glCreateShader(GL_VERTEX_SHADER);
+    1;
+}) {
+    SKIP: {
+        skip "Calling glCreateShader failed: $@", 2;
+    };
+    exit;
+};
+
 diag "Got vertex shader $id, setting source";
 
 my $shader = <<SHADER;
